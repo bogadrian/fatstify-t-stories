@@ -4,6 +4,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import * as jwtoken from 'jsonwebtoken';
 
 import User from '../models/users';
+import { IUser } from 'custom-types.js';
 //const createError = require('http-errors');
 export interface SupportPluginOptions {
   // Specify Support plugin options here
@@ -12,6 +13,7 @@ export interface SupportPluginOptions {
 // The use of fastify-plugin is required to be able
 // to export the decorators to the outer scope
 export default fp<SupportPluginOptions>(async (fastify, opts) => {
+  fastify.decorateReply('user', null);
   fastify.decorate(
     'authenticate',
     async function (request: FastifyRequest, reply: FastifyReply) {
@@ -63,6 +65,7 @@ export default fp<SupportPluginOptions>(async (fastify, opts) => {
           );
         }
 
+        fastify.user = user;
         request.user = user;
 
         // put the newly verified user in request so you can use it down the pipe.
@@ -79,5 +82,6 @@ export default fp<SupportPluginOptions>(async (fastify, opts) => {
 declare module 'fastify' {
   export interface FastifyInstance {
     authPlugin(): string;
+    user: IUser;
   }
 }

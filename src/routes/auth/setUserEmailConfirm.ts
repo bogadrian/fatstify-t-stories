@@ -71,6 +71,11 @@ const confirmEmail: FastifyPluginAsync = async (
       }
 
       const user = await User.findById(id);
+
+      if (!user) {
+        throw fastify.httpErrors.createError(404, 'No user  found!');
+      }
+
       const { _id } = user;
 
       const updatedUser = await User.updateOne(

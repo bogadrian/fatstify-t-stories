@@ -34,7 +34,7 @@ export default fp<FastifyPluginAsync>(async (fastify, opts) => {
           transport.sendMail(
             {
               from: process.env.EMAIL_SENDER,
-              to: process.env.EMAIL_RECEIVER,
+              to: user.email,
               subject: 'testing',
               html: resetPasswordEmail(title, user.userName, url)
             },

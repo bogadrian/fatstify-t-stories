@@ -1,9 +1,8 @@
 import { FastifyPluginAsync, FastifyInstance } from 'fastify';
 import fp from 'fastify-plugin';
 import { Mongoose } from 'mongoose';
-const mongoose = require('mongoose');
+import * as mongoose from 'mongoose';
 
-// npm install mongoose
 const pass = process.env.PASS;
 const DB = process.env.DB?.replace('<PASSWORD>', pass!);
 
