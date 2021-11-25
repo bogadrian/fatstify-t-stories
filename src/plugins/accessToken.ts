@@ -66,7 +66,6 @@ export default fp<SupportPluginOptions>(async (fastify, opts) => {
         }
 
         fastify.user = user;
-        request.user = user;
 
         // put the newly verified user in request so you can use it down the pipe.
       } catch (err: any) {
