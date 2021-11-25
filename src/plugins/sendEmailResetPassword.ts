@@ -23,19 +23,18 @@ export default fp<FastifyPluginAsync>(async (fastify, opts) => {
 
         const transport = nodemailer.createTransport(
           sendinBlue({
-            apiKey: '5D2CPL74vzYqV3Gs'
+            apiKey: process.env.SENDIBLUE_KEY
           })
         );
 
         if (user) {
           const url = `${process.env.CLIENT_APPLICATION_URL}/resetPassword/${forgotPasswordToken}`;
           const title = 'Reset your password';
-          console.log('uuuu', user.userName);
 
           transport.sendMail(
             {
-              from: 'sender@example.com',
-              to: 'bogdan44adrian@yahoo.it',
+              from: process.env.EMAIL_SENDER,
+              to: process.env.EMAIL_RECEIVER,
               subject: 'testing',
               html: resetPasswordEmail(title, user.userName, url)
             },

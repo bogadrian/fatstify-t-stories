@@ -23,7 +23,7 @@ export default fp<FastifyPluginAsync>(async (fastify, opts) => {
 
         const transport = nodemailer.createTransport(
           sendinBlue({
-            apiKey: '5D2CPL74vzYqV3Gs'
+            apiKey: process.env.SENDIBLUE_KEY
           })
         );
 
@@ -33,8 +33,8 @@ export default fp<FastifyPluginAsync>(async (fastify, opts) => {
           const title = 'Confirm your email';
           transport.sendMail(
             {
-              from: 'sender@example.com',
-              to: 'bogdan44adrian@yahoo.it',
+              from: process.env.EMAIL_SENDER,
+              to: process.env.EMAIL_RECEIVER,
               subject: 'testing',
               html: confirmEmail(title, user.userName, url)
             },
