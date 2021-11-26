@@ -7,8 +7,7 @@ const freeRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
 
   fastify.get('/', async function (request: FastifyRequest, reply) {
     return {
-      role: 'free route',
-      body: request.body
+      role: 'free route'
     };
   });
 };

@@ -6,9 +6,14 @@ const admin: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   //fastify.register(require('fastify-multipart'));
 
   fastify.post('/admin', async function (request: FastifyRequest, reply) {
-    const { role } = request?.user as { role: string };
+    const { role } = fastify.user;
 
-    //  return createError(703, 'test error!');
+    if (!role) {
+      throw fastify.httpErrors.createError(
+        403,
+        'There was an error on our server'
+      );
+    }
 
     if (role && role !== 'admin') {
       // use createError from http-erros module
