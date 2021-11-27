@@ -16,6 +16,7 @@ interface User {
   passwordResetExpires: Date;
   active: boolean;
   emailConfirmed: boolean;
+  exPasswords: string[];
 }
 const userSchema = new Schema<User>({
   userName: {
@@ -78,8 +79,15 @@ userSchema.pre('save', async function (next: () => void) {
   // Hash the password with cost of 12
   this.password = await bcrypt.hash(this.password, 14);
 
-  // Delete passwordConfirm field
-  (this as typeof User).passwordConfirm = undefined;
+  // set the array of ex passwords
+  (this as typeof User).exPasswords.push(this.password);
+
+  //keep only 3 of them in the array
+  if (this.exPasswords.length > 3)
+    (this as typeof User).exPasswords.shift()(
+      // Delete passwordConfirm field
+      this as typeof User
+    ).passwordConfirm = undefined;
   next();
 });
 
@@ -99,6 +107,17 @@ userSchema.pre(/^find/, function (next) {
 userSchema.methods.hashPasswordReset = async function (newPassword) {
   return await bcrypt.hash(newPassword, 14);
 };
+
+// Add a static method to shift one password from the begginig of the array whenever a new one is pushed to the array.
+// userSchema.statics.popPasswords = async function (user) {
+//   const doc = await this.findById({ _id: user });
+//   if (doc.exPasswords.length > 3) {
+//     await doc.update(
+//       { $pop: { exPasswords: -1 } },
+//       { upsert: true, new: true }
+//     );
+//   }
+// };
 
 userSchema.methods.correctPassword = async function (
   candidatePassword,

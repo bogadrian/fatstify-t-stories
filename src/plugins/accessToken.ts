@@ -29,7 +29,7 @@ export default fp<SupportPluginOptions>(async (fastify, opts) => {
           user: string;
           exp: number;
         };
-
+        // ] decoded { user: '6183fec3d3491a242d855764', iat: 1638017819, exp: 1638018119 }
         if (!decoded) {
           throw fastify.httpErrors.createError(
             404,

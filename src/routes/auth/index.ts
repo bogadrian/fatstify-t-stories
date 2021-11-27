@@ -9,6 +9,7 @@ const auth: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   fastify.register(import('./forgotPassword'));
   fastify.register(import('./resetPassword'));
   fastify.register(import('./signOut'));
+  fastify.register(import('./sameLastPassword'));
 };
 
 export default auth;

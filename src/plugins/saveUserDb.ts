@@ -3,7 +3,7 @@ import { FastifyPluginAsync } from 'fastify';
 import User from '../models/users';
 
 export default fp<FastifyPluginAsync>(async (fastify, opts) => {
-  fastify.decorate('dbInsert', body => {
+  fastify.decorate('dbInsert', async body => {
     const { userName, email, password, passwordConfirm } = body;
 
     // check if an email and a password was provided.if not stop here

@@ -37,15 +37,19 @@ const resetPassword: FastifyPluginAsync = async (
 
       const { user } = decoded;
 
-      // find the user for that email
       const userExists = await User.findById({ _id: user });
 
       const passwordHashed = await userExists.hashPasswordReset(newPassword);
 
       const updatedUser = await User.updateOne(
         { _id: userExists._id },
-        { $set: { password: passwordHashed } },
-        { new: false },
+        {
+          $set: {
+            password: passwordHashed
+          },
+          $addToSet: { exPasswords: passwordHashed }
+        },
+        { upsert: true, new: true },
         (error: Error, doc: any) => {
           if (error) {
             throw fastify.httpErrors.createError(

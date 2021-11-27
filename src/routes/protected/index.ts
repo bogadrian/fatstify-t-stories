@@ -2,6 +2,7 @@ import { FastifyPluginAsync } from 'fastify';
 
 import admin from './admin';
 import getMe from './getMe';
+import newPassword from './newPassword';
 
 const protect: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   // the 'onRequest' hook checks if the user is authenticated. if it is not, the code stops here. if it is, the routes registred below can be reached.
@@ -14,6 +15,7 @@ const protect: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
 
   fastify.register(admin);
   fastify.register(getMe);
+  fastify.register(newPassword);
 };
 
 export default protect;
