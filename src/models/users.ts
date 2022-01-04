@@ -32,7 +32,7 @@ const userSchema = new Schema<User>({
   },
   photo: {
     type: String,
-    default: 'default.jpg'
+    default: ''
   },
   role: {
     type: String,

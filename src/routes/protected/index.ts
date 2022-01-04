@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from 'fastify';
 
 import admin from './admin';
-import getMe from './getMe';
+import getMe from '../user/getMe';
 import newPassword from './newPassword';
 
 const protect: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
